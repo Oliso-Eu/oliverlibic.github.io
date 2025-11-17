@@ -1,20 +1,775 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oliver Libič – IT Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oliver Libič – Portfolio</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    body { margin:0; padding:0; font-family:Arial; background:#f3f3f3; color:#111; }
-    .hero { padding:80px; text-align:center; }
-    h1 { font-size:48px; margin:0; }
-    p { font-size:20px; color:#555; }
+    :root {
+      --bg-main: #050510;
+      --bg-card: rgba(10, 10, 25, 0.9);
+      --bg-card-soft: rgba(15, 15, 35, 0.9);
+      --accent-1: #34b6ff;
+      --accent-2: #752eff;
+      --accent-3: #e737ff;
+      --text-main: #f5f7ff;
+      --text-muted: #9ca3c7;
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --success: #3dd68c;
+      --danger: #ff5573;
+      --radius-lg: 24px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% -10%, rgba(52, 182, 255, 0.28), transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(231, 55, 255, 0.28), transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(117, 46, 255, 0.32), transparent 55%),
+        var(--bg-main);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 20px 72px 20px;
+    }
+
+    /* ---------- TOP BAR ---------- */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-orb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: conic-gradient(from 220deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
+      box-shadow: 0 0 18px rgba(111, 66, 255, 0.85);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-orb::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.4), transparent 55%);
+      mix-blend-mode: screen;
+    }
+
+    .logo-text-main {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+    }
+
+    .top-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: linear-gradient(120deg, rgba(52, 182, 255, 0.12), rgba(231, 55, 255, 0.04));
+      color: var(--text-main);
+    }
+
+    .top-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .top-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+      transition: width 0.25s ease;
+    }
+
+    .top-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ---------- HERO ---------- */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.15fr);
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+
+    .hero-title {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: clamp(2.7rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(120deg, var(--accent-1), var(--accent-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero-desc {
+      margin-top: 20px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 34rem;
+    }
+
+    .hero-meta {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.78rem;
+    }
+
+    .meta-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), transparent 60%);
+    }
+
+    .hero-actions {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: var(--radius-full);
+      padding: 10px 20px;
+      font-size: 0.88rem;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent-1), var(--accent-3));
+      box-shadow: 0 12px 30px rgba(53, 157, 255, 0.45);
+      color: #050510;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 45px rgba(53, 157, 255, 0.6);
+    }
+
+    .btn-ghost {
+      background: rgba(8, 8, 30, 0.8);
+      color: var(--text-main);
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      background: rgba(14, 14, 45, 0.95);
+    }
+
+    .btn-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-1);
+      box-shadow: 0 0 12px rgba(52, 182, 255, 0.8);
+    }
+
+    /* Hero – photo */
+
+    .hero-photo-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-orbit {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.16), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(231, 55, 255, 0.4), transparent 60%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 4px;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.85);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-orbit::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      border-radius: inherit;
+      background:
+        conic-gradient(from 180deg, rgba(52, 182, 255, 0.1), rgba(117, 46, 255, 0.5), rgba(231, 55, 255, 0.1), rgba(52, 182, 255, 0.6), rgba(117, 46, 255, 0.5));
+      mix-blend-mode: screen;
+      opacity: 0.9;
+      animation: spin 24s linear infinite;
+    }
+
+    .hero-photo-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      background: #050510;
+    }
+
+    .hero-photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.03);
+    }
+
+    .hero-photo-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 12px;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      background: rgba(5, 5, 16, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      backdrop-filter: blur(14px);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(61, 214, 140, 0.9);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ---------- SECTION WRAPPER ---------- */
+
+    .section {
+      margin-top: 18px;
+      padding: 22px 20px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at 0 0, rgba(52, 182, 255, 0.05), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(231, 55, 255, 0.05), transparent 65%),
+                  rgba(4, 4, 18, 0.9);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .section-pill {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* ---------- PROJECTS GRID ---------- */
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      position: relative;
+      padding: 16px 16px 18px 16px;
+      border-radius: 18px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 16px 36px rgba(3, 3, 16, 0.9);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      opacity: 0;
+      background: radial-gradient(circle at 0 0, rgba(52, 182, 255, 0.18), transparent 60%);
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .project-name {
+      font-size: 0.96rem;
+      font-weight: 500;
+    }
+
+    .project-label {
+      font-size: 0.68rem;
+      padding: 5px 9px;
+      border-radius: 999px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .project-label.finished {
+      background: rgba(61, 214, 140, 0.14);
+      border-color: rgba(61, 214, 140, 0.58);
+      color: #b9f6d3;
+    }
+
+    .project-label.progress {
+      background: rgba(231, 55, 255, 0.12);
+      border-color: rgba(231, 55, 255, 0.7);
+      color: #f6d3ff;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .status-dot.pulse {
+      position: relative;
+    }
+
+    .status-dot.pulse::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: currentColor;
+      opacity: 0.7;
+      animation: pulse 1.4s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      60% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    .project-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .project-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      gap: 10px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.7rem;
+    }
+
+    .project-link {
+      text-decoration: none;
+      color: var(--accent-1);
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .project-link span.arrow {
+      font-size: 0.9rem;
+      transform: translateY(1px);
+    }
+
+    /* ---------- FOOTER ---------- */
+
+    .footer {
+      margin-top: 28px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--accent-1);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+      }
+
+      .hero-photo-wrap {
+        order: -1;
+      }
+
+      .hero-orbit {
+        width: 220px;
+        height: 220px;
+      }
+
+      .section {
+        padding: 18px 16px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .hero-desc {
+        font-size: 0.9rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-title {
+        font-size: 2.1rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="hero">
-    <h1>Ahoj, som Oliver 👋</h1>
-    <p>Web developer • IT specialist • Creative technológ</p>
+
+  <div class="page">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="logo-mark">
+        <div class="logo-orb"></div>
+        <div>
+          <div class="logo-text-main">Oliver Libič</div>
+          <div class="logo-text-sub">IT • WEB • CREATIVE TECH</div>
+        </div>
+      </div>
+
+      <div class="top-links">
+        <span class="chip">Based in Bratislava · Available for remote</span>
+        <a href="#projects">Projects</a>
+        <a href="mailto:oliver@example.com">Contact</a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <h1 class="hero-title">
+          Crafting <span class="accent">digital</span><br />
+          systems for the <span class="accent">future</span>
+        </h1>
+        <p class="hero-sub">Web development · systems · automation</p>
+        <p class="hero-desc">
+          I design and build fast, clean and maintainable digital experiences –
+          from event platforms and portfolios to internal tools, automations and AI-powered experiments.
+        </p>
+
+        <div class="hero-meta">
+          <span class="meta-pill">Frontend · HTML · CSS · JS</span>
+          <span class="meta-pill">WordPress · Webflow · Shoptet</span>
+          <span class="meta-pill">Automation & AI workflows</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">
+            <div class="btn-dot"></div>
+            <span>View projects</span>
+          </a>
+          <a href="mailto:oliver@example.com" class="btn-ghost">
+            <span>Let’s work together</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-photo-wrap">
+        <div class="hero-orbit">
+          <div class="hero-photo-inner">
+            <!-- TODO: replace src with your real photo URL -->
+            <img src="https://images.pexels.com/photos/6953871/pexels-photo-6953871.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Portrait of Oliver" />
+            <div class="hero-photo-badge">
+              <span class="badge-dot"></span> Currently building things
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section class="section" id="projects">
+      <div class="section-header">
+        <h2 class="section-title">Projects</h2>
+        <div class="section-pill">
+          <span style="margin-right:12px;">● Completed</span>
+          <span style="color:#f6d3ff;">● In progress</span>
+        </div>
+      </div>
+
+      <div class="projects-grid">
+        <!-- COMPLETED PROJECT -->
+        <article class="project-card">
+          <div class="project-topline">
+            <h3 class="project-name">POSH Marketing Studio website</h3>
+            <span class="project-label finished">
+              <span class="status-dot"></span>
+              Finished
+            </span>
+          </div>
+          <p class="project-desc">
+            High-end marketing studio site with custom animations, responsive layout,
+            and carefully tuned typography in burgundy/cream palette.
+          </p>
+          <div class="project-meta-row">
+            <div class="project-tags">
+              <span class="tag">WordPress</span>
+              <span class="tag">Custom CSS</span>
+              <span class="tag">Design implementation</span>
+            </div>
+            <a class="project-link" href="https://poshmarketingstudio.com" target="_blank" rel="noreferrer">
+              live <span class="arrow">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- COMPLETED PROJECT -->
+        <article class="project-card">
+          <div class="project-topline">
+            <h3 class="project-name">Bratislava Marathon – event platform</h3>
+            <span class="project-label finished">
+              <span class="status-dot"></span>
+              Finished
+            </span>
+          </div>
+          <p class="project-desc">
+            Event website and registration flows for thousands of runners, integrating
+            partner branding, merchandise and user-friendly UX.
+          </p>
+          <div class="project-meta-row">
+            <div class="project-tags">
+              <span class="tag">WordPress</span>
+              <span class="tag">UX</span>
+              <span class="tag">Integrations</span>
+            </div>
+            <!-- add link if you have -->
+            <span class="project-link" style="opacity:.6; pointer-events:none;">
+              internal project
+            </span>
+          </div>
+        </article>
+
+        <!-- IN PROGRESS PROJECT -->
+        <article class="project-card">
+          <div class="project-topline">
+            <h3 class="project-name">Epic Adventure 3D – browser game</h3>
+            <span class="project-label progress">
+              <span class="status-dot pulse"></span>
+              In progress
+            </span>
+          </div>
+          <p class="project-desc">
+            Experimental 3D-style RPG in the browser with modular architecture,
+            enemy AI and leveling system. Built to explore performance and gameplay in JS.
+          </p>
+          <div class="project-meta-row">
+            <div class="project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Game dev</span>
+              <span class="tag">Webpack</span>
+            </div>
+            <span class="project-link">
+              dev build <span class="arrow">↗</span>
+            </span>
+          </div>
+        </article>
+
+        <!-- IN PROGRESS PROJECT -->
+        <article class="project-card">
+          <div class="project-topline">
+            <h3 class="project-name">Solana – personal AI companion</h3>
+            <span class="project-label progress">
+              <span class="status-dot pulse"></span>
+              In progress
+            </span>
+          </div>
+          <p class="project-desc">
+            Local-first AI assistant with evolving memory, RAG, dashboards and
+            experimental “dream” modules. Focus on long-term context and automation.
+          </p>
+          <div class="project-meta-row">
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">RAG</span>
+              <span class="tag">Automation</span>
+            </div>
+            <span class="project-link">
+              docs soon <span class="arrow">↗</span>
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <span>© <span id="year"></span> Oliver Libič – building modern digital systems.</span>
+      <span>
+        <a href="mailto:oliver@example.com">Email</a> ·
+        <a href="https://www.instagram.com/yourhandle" target="_blank" rel="noreferrer">Instagram</a> ·
+        <a href="https://github.com/yourgithub" target="_blank" rel="noreferrer">GitHub</a>
+      </span>
+    </footer>
   </div>
+
+  <script>
+    // set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
