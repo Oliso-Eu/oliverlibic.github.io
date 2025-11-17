@@ -263,10 +263,10 @@
         radial-gradient(circle at 100% 100%, rgba(231, 55, 255, 0.4), transparent 60%);
       border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 4px;
-      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.6);
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(18px);
+      backdrop-filter: none;
     }
 
     .hero-orbit::before {
@@ -296,7 +296,10 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transform: scale(1.03);
+      transform: none;
+   image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: contrast(1.05) saturate(1.05);
     }
 
     .hero-photo-badge {
